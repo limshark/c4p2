@@ -47,19 +47,12 @@ df3 <- pm25InBaltimore
 ag <- aggregate(Emissions ~ year+type,data=df3,FUN = "sum")
 
 library(ggplot2)
-#g <- ggplot(df,aes(Emissions))
-#g + geom_point(alpha = 1/3)
 
-qplot(ag$year,ag$Emissions,col=ag$type,
-      geom=c("boxplot"),
-      fill=ag$type)
-
-#print(g)
-
-#png(file="limaye3.png",bg="transparent")
-
-
-#dev.off()
+png(file="limaye3.png",bg="transparent",units="px",height=480,width=480)
+g <- ggplot(ag, aes(year,Emissions)) 
+p <- g + geom_line(aes(color=type),size=4) + labs(title = "PM25 Emission Count in Baltimore for different Sources") + labs(x = "Year") + labs(y = expression(PM[2.5]))
+print(p)
+dev.off()
 
 
 
