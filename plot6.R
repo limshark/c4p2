@@ -32,8 +32,8 @@ ag6 <- aggregate(Emissions ~ year+City,data=df6,FUN = "sum")
 png(file="plot6.png",bg="transparent",units="px",height=480,width=640)
 
 # have two facet panels as per City and use different colour graphs to draw the trends in each city
-g6 <- ggplot(ag6, aes(year,Emissions)) + geom_point(size=4)  + labs(title = "PM25 Emission 'Total' in Baltimore/LA for Motor Vehicle") + labs(x = "Year") + labs(y = expression(PM[2.5]))  
-p6 <- g6 + geom_line(aes(colour=City),size=2) + facet_grid(. ~ City) + scale_x_continuous(breaks=c(1999,2002,2005,2008,2011))
+g6 <- ggplot(ag6, aes(year,Emissions))  + labs(title = "PM25 Emission 'Total' in Baltimore/LA for Motor Vehicle") + labs(x = "Year") + labs(y = expression('Total Emission for ' *PM[2.5]))  
+p6 <- g6 + geom_line(aes(colour=City),size=2) + geom_point(size=3) + facet_grid(. ~ City) + scale_x_continuous(breaks=c(1999,2002,2005,2008),limits=c(1996,2011)) + geom_smooth(method="lm",se = TRUE, col="steelblue")
 
 print(p6)
 

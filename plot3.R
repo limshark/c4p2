@@ -39,6 +39,6 @@ png(file="plot3.png",bg="transparent",units="px",height=480,width=640)
 #plot the stuff 
 g3 <- ggplot(ag3, aes(year,Emissions)) 
 p3 <- g3  + geom_point(colour="black",size=3) + labs(title = "PM2.5 Emission in Tons 'Baltimore' for different Types") + labs(x = "Year") + labs(y = expression('Emission in Tons for' * PM[2.5]))
-p3 <- p3 + scale_x_continuous(breaks=c(1999,2002,2005,2008,2011)) + geom_smooth(method="lm", se = TRUE, aes(color=type),size=1) + facet_grid(. ~ type)
+p3 <- p3 + scale_x_continuous(breaks=c(1999,2002,2005,2008),limits=c(1999,2011)) + geom_smooth(method="lm", se = TRUE, aes(color=type),size=1) + facet_grid(. ~ type)
 print(p3)
 dev.off()
