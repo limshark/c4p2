@@ -1,5 +1,5 @@
 #
-# 1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
+# Q1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
 #    Using the base plotting system, make a plot showing the total PM2.5 emission from all sources 
 #   for each of the years 1999, 2002, 2005, and 2008.
 #
@@ -10,8 +10,9 @@ classification <- readRDS("Source_Classification_Code.rds")
 pm25vsYears <- transform(pm25data,years=factor(year))
 ag1 <- aggregate(Emissions ~ year,data=pm25data,FUN = "sum")
 ag1$Emissions <- ag1$Emissions/1000 
-png(file="limaye1.png",bg="transparent")
-plot(y=ag1$Emissions,x=ag1$year, main="Total PM2.5 Emissions (Thousands) in Tons", ylab="Total Emissions ( in '000s ) Tons", xlab="Year",type = "h", col = "Blue", lwd = 50,axes=FALSE)
+
+png(file="plot1.png",bg="transparent", units="px",height=480,width=480)
+plot(y=ag1$Emissions,x=ag1$year, main="Total PM2.5 Emissions in (Thousands Tons)", ylab="Total Emissions ( in '000s  Tons)", xlab="Year",type = "h", col = "Blue", lwd = 50,axes=FALSE)
 lines(y=ag1$Emissions,x=ag1$year)
 axis(1,at=ag1$year,labels=ag1$year)
 axis(2)
@@ -19,7 +20,7 @@ dev.off()
 
 
 #
-# 2. Have total emissions from  PM2.5  decreased in the BaltimoreCity, Maryland (fips=="24510") from 1999 to 2008? 
+# Q 2. Have total emissions from  PM2.5  decreased in the BaltimoreCity, Maryland (fips=="24510") from 1999 to 2008? 
 #     Use the base plotting system to make a plot answering this question.
 # 
 
@@ -31,8 +32,8 @@ df2 <- pm25VehicleInBaltimore
 ag2 <- aggregate(Emissions ~ year,data=df2,FUN = "sum")
 
 
-png(file="limaye2.png",bg="transparent")
-plot(y=ag2$Emissions,x=ag2$year, main="Total PM2.5 Emissions in 'Baltimore' for On 'Road Vehicles'", ylab="Total Emissions in Tons", xlab="Year",type = "h", col = "Red", lwd = 50,axes=FALSE)
+png(file="plot2.png",bg="transparent",units="px",height=480,width=480)
+plot(y=ag2$Emissions,x=ag2$year, main="Total PM2.5 Emissions in 'Baltimore' for 'On-Road Vehicles'", ylab="Total PM2.5 Emissions in Tons", xlab="Year",type = "h", col = "Red", lwd = 50,axes=FALSE)
 lines(y=ag2$Emissions,x=ag2$year)
 axis(1,at=ag2$year,labels=ag2$year)
 axis(2)
@@ -55,9 +56,9 @@ ag3 <- aggregate(Emissions ~ year + type,data=df3,FUN = "sum")
 
 library(ggplot2)
 
-png(file="limaye3.png",bg="transparent",units="px",height=480,width=480)
+png(file="plot3.png",bg="transparent",units="px",height=480,width=480)
 g3 <- ggplot(ag3, aes(year,Emissions)) 
-p3 <- g3 + geom_line(aes(color=type),size=4) + labs(title = "PM25 Emission in Tons in Baltimore for different Sources") + labs(x = "Year") + labs(y = expression(PM[2.5]))
+p3 <- g3 + geom_line(aes(color=type),size=4) + labs(title = "PM2.5 Emission in Tons in Baltimore for different Sources") + labs(x = "Year") + labs(y = expression(PM[2.5]))
 p3 <- p3 + scale_x_continuous(breaks=c(1999,2002,2005,2008,2011))
 print(p3)
 dev.off()
@@ -99,7 +100,7 @@ classprint <- function() {
 }
   
 
-# filter those SCC code which mathes the coal consumptions
+# filter those SCC code which matthes the coal consumptions
 #
 #
   
@@ -120,7 +121,7 @@ png(file="limaye4.png",bg="transparent",units="px",height=480,width=480)
 g4 <- ggplot(ag4, aes(year,Emissions)) 
 p4 <- g4 + geom_line(size=3) + geom_point(color="red",size=5) 
 
-p4 <- p4    + labs(title = "PM25 Emission Total in Tons - Coal Combustion related Sources") 
+p4 <- p4    + labs(title = "PM25 Emission Total in (000'sTons) - Coal Combustion related Sources") 
 p4 <- p4   + labs(x = "Year") + labs(y = "PM2.5 Total (In 000's) Tons"  )  + scale_x_continuous(breaks=c(1999,2002,2005,2008,2011))
 
 
