@@ -1,5 +1,7 @@
 #
-# Try reading in a file
+# 1. Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
+#    Using the base plotting system, make a plot showing the total PM2.5 emission from all sources 
+#   for each of the years 1999, 2002, 2005, and 2008.
 #
 
 
@@ -17,7 +19,8 @@ dev.off()
 
 
 #
-# Question 2   subset of data type is "on-road"  and city is baltimore city ( Fips = 24510 )
+# 2. Have total emissions from  PM2.5  decreased in the BaltimoreCity, Maryland (fips=="24510") from 1999 to 2008? 
+#     Use the base plotting system to make a plot answering this question.
 # 
 
 ind <-  (pm25data$type == "ON-ROAD") & (pm25data$fips == 24510)
@@ -35,7 +38,10 @@ axis(2)
 dev.off()
 
 #
-# Q3 : drawing a ggplot2 graph between PM2.5 by levels against years in x axis. use 4 types for the plotting : point,nopoint,onroad and non onroad
+# 3. Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which 
+#     of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? 
+#    Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to 
+#    make a plot answer this question.
 #
 
 
@@ -57,7 +63,9 @@ dev.off()
 
 
 #
-#  Q4. Get all the coals yanked out from the data and display the graph
+#  4. Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+#  
+#      Get all the coals yanked out from the data and display the graph
 #
 
 coalCombustion <- function(str) {
@@ -103,7 +111,7 @@ pm25coal <-  pm25data[as.logical(ind4),]
 
 df4 <- pm25coal 
 
-ag <- aggregate(Emissions ~ year,data=df4,FUN = "sum")
+ag <- aggregate(Emissions ~ year,data=df4,FUN = "mean")
 ag$Emissions <- ag$Emissions/1000
 
 library(ggplot2)
@@ -113,7 +121,7 @@ g <- ggplot(ag, aes(year,Emissions))
 p <- g + geom_line(size=3) + geom_point(color="red",size=5) 
 
 p <- p    + labs(title = "PM25 Emission Count - Coal Combustion related Sources") 
-p <- p   + labs(x = "Year") + labs(y = "PM2.5 Count (In 000's)"  )
+p <- p   + labs(x = "Year") + labs(y = "PM2.5 Mean (In 000's)"  )
 
 
 print(p)
@@ -129,13 +137,13 @@ pm25MotorInBaltimore <-  pm25data[ind5,]
 
 df5 <- pm25MotorInBaltimore 
 
-ag <- aggregate(Emissions ~ year+type,data=df5,FUN = "sum")
+ag <- aggregate(Emissions ~ year+type,data=df5,FUN = "mean")
 
 library(ggplot2)
 
 png(file="limaye5.png",bg="transparent",units="px",height=480,width=480)
 g <- ggplot(ag, aes(year,Emissions)) 
-p <- g + geom_line(aes(color=type),size=2) + labs(title = "PM25 Emission Count in Baltimore for Motor Vehicle") + labs(x = "Year") + labs(y = expression(PM[2.5]))
+p <- g + geom_line(aes(color=type),size=2) + labs(title = "PM25 Emission Mean in Baltimore for Motor Vehicle") + labs(x = "Year") + labs(y = expression(PM[2.5]))
 p <- p + geom_point(size=4,colour="black")
 print(p)
 dev.off()
