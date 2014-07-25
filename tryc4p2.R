@@ -27,12 +27,39 @@ df <- pm25VehicleInBaltimore
 
 ag <- aggregate(Emissions ~ year,data=df,FUN = "sum")
 
-ag$Emissions <- ag$Emissions/1000 
 png(file="limaye2.png",bg="transparent")
-plot(y=ag$Emissions,x=ag$year, main="Total PM2.5 Emissions  (Thousands) in 'Baltimore' for On 'Road Vehicles'", ylab="Total Emissions ( in '000s )", xlab="Year",type = "h", col = "Red", lwd = 50,axes=FALSE)
+plot(y=ag$Emissions,x=ag$year, main="Total PM2.5 Emissions in 'Baltimore' for On 'Road Vehicles'", ylab="Total Emissions", xlab="Year",type = "h", col = "Red", lwd = 50,axes=FALSE)
 lines(y=ag$Emissions,x=ag$year)
 axis(1,at=ag$year,labels=ag$year)
 axis(2)
 dev.off()
+
+#
+# Q3 : drawing a ggplot2 graph between PM2.5 by levels against years in x axis. use 4 types for the plotting : point,nopoint,onroad and non onroad
+#
+
+
+ind3 <-  (((pm25data$type == "ON-ROAD") | (pm25data$type == "NON-ROAD") | (pm25data$type == "POINT") | (pm25data$type == "NONPOINT")) & (pm25data$fips == 24510))
+pm25InBaltimore <-  pm25data[ind3,]
+
+df3 <- pm25InBaltimore 
+
+ag <- aggregate(Emissions ~ year+type,data=df3,FUN = "sum")
+
+library(ggplot2)
+#g <- ggplot(df,aes(Emissions))
+#g + geom_point(alpha = 1/3)
+
+qplot(ag$year,ag$Emissions,col=ag$type,
+      geom=c("boxplot"),
+      fill=ag$type)
+
+#print(g)
+
+#png(file="limaye3.png",bg="transparent")
+
+
+#dev.off()
+
 
 
