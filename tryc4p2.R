@@ -37,18 +37,11 @@ axis(1,at=ag$year,labels=ag$year)
 axis(2)
 dev.off()
 
-#
-# 3. Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which 
-#
-#     of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City?
-#
-#    Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to
-#
-#    make a plot answer this question.
-#
 
-
-ind3 <-  (((pm25data$type == "ON-ROAD") | (pm25data$type == "NON-ROAD") | (pm25data$type == "POINT") | (pm25data$type == "NONPOINT")) & (pm25data$fips == 24510))
+#
+# Q3
+#
+ind3 <- (((pm25data$type == "ON-ROAD") | (pm25data$type == "NON-ROAD") | (pm25data$type == "POINT") | (pm25data$type == "NONPOINT")) & (pm25data$fips == 24510))
 pm25InBaltimore <-  pm25data[ind3,]
 
 df3 <- pm25InBaltimore 
@@ -62,7 +55,6 @@ g <- ggplot(ag, aes(year,Emissions))
 p <- g + geom_line(aes(color=type),size=4) + labs(title = "PM25 Emission Count in Baltimore for different Sources") + labs(x = "Year") + labs(y = expression(PM[2.5]))
 print(p)
 dev.off()
-
 
 
 #
