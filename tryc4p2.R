@@ -23,7 +23,7 @@ dev.off()
 #     Use the base plotting system to make a plot answering this question.
 # 
 
-ind <-  (pm25data$type == "ON-ROAD") & (pm25data$fips == 24510)
+ind <-  (pm25data$type == "ON-ROAD") & (pm25data$fips == "24510")
 pm25VehicleInBaltimore <-  pm25data[ind,]
 
 df <- pm25VehicleInBaltimore 
@@ -39,9 +39,12 @@ dev.off()
 
 
 #
-# Q3
+# Q3 : Of the four types of sources indiated by the type ( point, nonpoint, onroad,nonroad) variable, which of these four sources have seen decreases in emissions
+#      fromm 1999 to 2008 for Baltimore City? which have seen increases in emission from 1999-2008 ? Use the ggplot2 plotting system to make a plot answer these
+#       Questions. 
 #
-ind3 <- (((pm25data$type == "ON-ROAD") | (pm25data$type == "NON-ROAD") | (pm25data$type == "POINT") | (pm25data$type == "NONPOINT")) & (pm25data$fips == 24510))
+
+ind3 <- (((pm25data$type == "ON-ROAD") | (pm25data$type == "NON-ROAD") | (pm25data$type == "POINT") | (pm25data$type == "NONPOINT")) & (pm25data$fips == "24510"))
 pm25InBaltimore <-  pm25data[ind3,]
 
 df3 <- pm25InBaltimore 
@@ -56,12 +59,10 @@ p <- g + geom_line(aes(color=type),size=4) + labs(title = "PM25 Emission Count i
 print(p)
 dev.off()
 
+#
+# Q 4 : Across the united states, how have emissions from coal combustion-related sources changed from 1999-2008
+#
 
-#
-#  4. Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
-#  
-#      Get all the coals yanked out from the data and display the graph
-#
 
 coalCombustion <- function(str) {
   # check if it is coal combustion related  stuff 
@@ -124,10 +125,12 @@ dev.off()
 
 
 #
+#    Q5: How have emissions from motor behicle sources changed from 1999-2008 in Baltimore city. 
+#
 # Plot5 : How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
 #
   
-ind5 <-  ((pm25data$type == "ON-ROAD") & (pm25data$fips == 24510))
+ind5 <-  ((pm25data$type == "ON-ROAD") & (pm25data$fips == "24510"))
 pm25MotorInBaltimore <-  pm25data[ind5,]
 
 df5 <- pm25MotorInBaltimore 
@@ -140,6 +143,28 @@ png(file="limaye5.png",bg="transparent",units="px",height=480,width=480)
 g <- ggplot(ag, aes(year,Emissions)) 
 p <- g + geom_line(aes(color=type),size=2) + labs(title = "PM25 Emission Mean in Baltimore for Motor Vehicle") + labs(x = "Year") + labs(y = expression(PM[2.5]))
 p <- p + geom_point(size=4,colour="black")
+print(p)
+dev.off()
+
+
+#
+#  Q 6 : Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County
+#         California ( fips = "06037" ). Which city has seen greater changes over time in motor behicle emissions. 
+#
+
+ind6 <-  ((pm25data$type == "ON-ROAD") & ((pm25data$fips == "24510")|(pm25data$fips == "06307")))
+pm25MotorIn2Cities <-  pm25data[ind6,]
+df6 <- pm25MotorIn2Cities 
+
+ag <- aggregate(Emissions ~ year+fips,data=df6,FUN = "mean")
+
+library(ggplot2)
+
+png(file="limaye6.png",bg="transparent",units="px",height=480,width=480)
+g <- ggplot(ag, aes(year,Emissions)) 
+p <- g + geom_line(aes(color=fips),size=2) + labs(title = "PM25 Emission 'Mean' in Baltimore/LA for Motor Vehicle") + labs(x = "Year") + labs(y = expression(PM[2.5]))
+p <- p + geom_point(size=4,colour="black") 
+p <- p + facet_grid(. ~ fips)
 print(p)
 dev.off()
 
