@@ -8,7 +8,7 @@
 #   Date Created: 20 July 2014
 #
 #   Objective: 
-#    Q5: How have emissions from motor behicle sources changed from 1999-2008 in Baltimore city.
+#    Q5: How have emissions from motor vehicle sources changed from 1999-2008 in Baltimore city.
 #
 library(ggplot2)
 
@@ -25,7 +25,7 @@ df5 <- pm25MotorInBaltimore
 ag5 <- aggregate(Emissions ~ year+type,data=df5,FUN = "sum")
 
 
-png(file="plot5.png",bg="transparent",units="px",height=480,width=480)
+png(file="plot5.png",bg="transparent",units="px",height=480,width=640)
 
 # do the plotting stuff
 g5 <- ggplot(ag5, aes(year,Emissions)) 
