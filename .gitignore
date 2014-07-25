@@ -1,0 +1,12 @@
+
+.RData
+
+.Rhistory
+
+*.rds
+
+*.zip
+
+*.pdf
+
+.Rproj.user
